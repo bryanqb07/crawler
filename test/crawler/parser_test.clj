@@ -39,4 +39,7 @@
 (deftest test-parser
  (testing "filters domain-specific urls"
    (let [filter-result (filter-domain-links "ycombinator.com" test-url-strings)]
-     (is (= 2 (count filter-result))))))
+     (is (= 2 (count filter-result)))))
+  (testing "can parse abbreviated domain name from a url"
+    (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/"))))
+  )
