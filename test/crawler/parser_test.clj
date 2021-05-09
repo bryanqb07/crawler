@@ -43,4 +43,8 @@
      (is (= 3 (count filter-result)))
      (is (= 2 (count (filter-external-domains "ycombinator.com" filter-result))))))
   (testing "can parse abbreviated domain name from a url"
-    (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/")))))
+    (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/"))))
+  (testing "relative links are converted into full links before filtering"
+    (let [url "http://ycombinator.com/"
+          relative-links '("/about" "/shop" "http://ycombinator.com/posts")]
+      (is (= (set '("http://ycombinator.com/about" "http://ycombinator.com/shop" "http://ycombinator.com/posts")) (set (convert-relative-links url relative-links)))))))
