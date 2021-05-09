@@ -43,6 +43,4 @@
      (is (= 3 (count filter-result)))
      (is (= 2 (count (filter-external-domains "ycombinator.com" filter-result))))))
   (testing "can parse abbreviated domain name from a url"
-    (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/"))))
-  (testing "")
-  )
+    (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/")))))
