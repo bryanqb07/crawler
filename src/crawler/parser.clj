@@ -3,13 +3,16 @@
             [clojure.java.io :as io :refer [as-url]]
             [clojure.string :as str :refer [join split]]))
 
-(def ^:dynamic *base-url* "https://news.ycombinator.com/")
+(def ^:dynamic *base-url* "https://www.w3schools.com/")
 
 (defn fetch-url [url]
   (html/html-resource (java.net.URL. url)))
 
 (defn get-links [html-tree] 
    (map #(get-in % [:attrs :href]) (html/select html-tree [:a])))
+
+(defn get-links-from-url [url]
+  (get-links (fetch-url url)))
 
 ; used to pass args into the #"" operator.  should probably use Java interop instead but oh well
 (defn get-regexp [regex string]
@@ -26,3 +29,10 @@
 
 (defn filter-domain-links [domain-name url-strings] 
   (filter #(get-regexp (str "^(?!mailto)(" ".*" domain-name ".*" ")") %) url-strings))
+
+(defn filter-external-domains [domain-name url-strings]
+  (filter #(= domain-name (url-to-domain %)) url-strings))
+
+(defn get-url-links [url]
+  (let [domain-name (url-to-domain url)]
+    (filter-external-domains domain-name (filter-domain-links domain-name (get-links-from-url url)))))

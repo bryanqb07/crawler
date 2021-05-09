@@ -25,6 +25,7 @@
  "hide?id=27084854&goto=news"
  "item?id=27084854"
  "news?p=2"
+ "http://linkedin.com/ycombinator.com/" ; this should be filtered out
  "newsguidelines.html"
  "newsfaq.html"
  "lists"
@@ -39,7 +40,9 @@
 (deftest test-parser
  (testing "filters domain-specific urls"
    (let [filter-result (filter-domain-links "ycombinator.com" test-url-strings)]
-     (is (= 2 (count filter-result)))))
+     (is (= 3 (count filter-result)))
+     (is (= 2 (count (filter-external-domains "ycombinator.com" filter-result))))))
   (testing "can parse abbreviated domain name from a url"
     (is (= "ycombinator.com" (url-to-domain "https://news.ycombinator.com/"))))
+  (testing "")
   )
