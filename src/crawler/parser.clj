@@ -51,7 +51,7 @@
   (filter #(= domain-name (url-to-domain %)) url-strings))
 
 (defn get-full-links-from-url [url]
-  (let [url-strings (get-links-from-url url)]
+  (let [url-strings (remove nil? (get-links-from-url url))]
     (convert-relative-links url url-strings)))
 
 ; 1) grab the URL and all of link tag elements href attrs
