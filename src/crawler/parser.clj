@@ -24,7 +24,7 @@
   (reduce 
    (fn [acc url]
      (if 
-      (re-matches #"^\/w+" url) ; if it's a relative link replace with full ex. /posts => facebook.com/posts
+      (re-matches #"^\/\w+" url) ; if it's a relative link replace with full ex. /posts => facebook.com/posts
        (cons (str (remove-trailing-slash-url base-url) url) acc)
        (cons url acc))) ;; otherwise jsut leave it as it is
    '()
