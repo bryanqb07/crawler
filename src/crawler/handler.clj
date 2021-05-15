@@ -6,8 +6,9 @@
             [ring.util.response :as resp]))
 
 (defroutes app-routes
+  (GET "/" [] (resp/redirect "/index.html"))
   (GET "/search" {params :params} 
-       (resp/response {:search-terms (str "you have tried to query: " params)}))
+       (resp/response {:results (str "you have tried to query: " params)}))
   (route/resources "/")
   (route/not-found "Not Found"))
 
