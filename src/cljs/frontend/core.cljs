@@ -4,7 +4,7 @@
       [reagent.core :as r]
       [reagent.dom :as d]
       [cljs-http.client :as http]
-      [cljs.core.async :refer [<! >! chan]]))
+      [cljs.core.async :refer [<! >! chan put!]]))
 
 (enable-console-print!)
 
@@ -16,21 +16,28 @@
 (defn respond-to-search [response]
   (prn response))
 
+;; (defn create-request-handler []
+;;   (let [search-url (go (<! request-chan))
+;;         response (go (<! (http/get "/"
+;;                                    {:with-credentials false
+;;                                     :query-params {"search-url" search-url}})))]
+;;     (respond-to-search response)
+;;     ))
 (defn create-request-handler []
-  (let [search-url (<! request-chan)
-        response (<! (http/get "/"
-                               {:with-credentials false
-                                :query-params {"search-url" search-url}}))]
-    (respond-to-search response)
-    ))
-
+  (go-loop []
+    (let [search-url (<! request-chan)
+          response (<! (http/get "/"
+                                 {:with-credentials false
+                                  :query-params {"search-url" search-url}}))]
+      (prn response)
+      (recur))))
 
 (defn search-form []
   (let [search-url (r/atom "")]
     (fn []
       [:form {:on-submit (fn [e]
                            (.preventDefault e)
-                           (>! chan @search-url))}
+                           (put! request-chan @search-url))}
        [:input {:type :text 
                 :name :search-url
                 :value @search-url
@@ -40,6 +47,7 @@
        [:button {:type :submit} "Crawl!"]])))
 
 (defn home-page []
+  (create-request-handler)
   [:div 
    [:h2 "Clojure Web Crawler"]
    [search-form]
