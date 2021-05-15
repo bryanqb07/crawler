@@ -1,13 +1,13 @@
-{:source-paths ["src"]
+{:source-paths ["src/cljs"]
  :dependencies [[binaryage/devtools "1.0.3"]
                 [nrepl "0.8.3"]
                 [reagent "1.0.0"]
                 [cljs-http "0.1.46"]]
  :builds       {:app {:target     :browser
-                      :output-dir "public/js"
+                      :output-dir "resources/public/js"
                       :asset-path "/js"
                       :modules    {:app {:entries [frontend.core]}}
                       :devtools   {:after-load frontend.core/mount-root}}}
 
- :dev-http     {9000 {:root    "public"
+ :dev-http     {9000 {:root    "resources/public"
                       :handler user/app}}}
