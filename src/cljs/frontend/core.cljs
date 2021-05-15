@@ -26,7 +26,7 @@
 (defn create-request-handler []
   (go-loop []
     (let [search-url (<! request-chan)
-          response (<! (http/get "/"
+          response (<! (http/get "/search"
                                  {:with-credentials false
                                   :query-params {"search-url" search-url}}))]
       (prn response)
@@ -50,8 +50,7 @@
   (create-request-handler)
   [:div 
    [:h2 "Clojure Web Crawler"]
-   [search-form]
-   ])
+   [search-form]])
 
 ;; -------------------------
 ;; Initialize app

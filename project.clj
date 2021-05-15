@@ -6,6 +6,7 @@
                  [org.clojure/core.async "1.3.618"]
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
+                 [ring/ring-json "0.5.1"]
                  [enlive "1.1.6"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler crawler.handler/app}
