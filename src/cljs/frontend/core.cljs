@@ -10,8 +10,9 @@
 
 ;; -------------------------
 ;; Views
-(def search-url-results (r/atom {}))
+(def search-url-results (r/atom []))
 (def request-chan (chan))
+(def results-chan (chan))
 
 (defn respond-to-search [response]
   (prn response))
@@ -23,13 +24,20 @@
 ;;                                     :query-params {"search-url" search-url}})))]
 ;;     (respond-to-search response)
 ;;     ))
+(defn create-results-handler []
+  (go-loop []
+    (let [results (<! results-chan)]
+      (reset! search-url-results results)
+      (recur))))
+
 (defn create-request-handler []
   (go-loop []
     (let [search-url (<! request-chan)
           response (<! (http/get "/search"
                                  {:with-credentials false
-                                  :query-params {"search-url" search-url}}))]
-      (prn response)
+                                  :query-params {"search-url" search-url}}))
+          results (get-in response [:body :results])]
+      (put! results-chan results)
       (recur))))
 
 (defn search-form []
@@ -46,11 +54,19 @@
         ]
        [:button {:type :submit} "Crawl!"]])))
 
-(defn home-page []
-  (create-request-handler)
-  [:div 
-   [:h2 "Clojure Web Crawler"]
-   [search-form]])
+(defn results-list []
+  [:ul
+   (for [result @search-url-results]
+     [:li {:key result}
+      result])])   
+
+  (defn home-page []
+    (create-request-handler)
+    (create-results-handler)
+    [:div 
+     [:h2 "Clojure Web Crawler"]
+     [search-form]
+     [results-list]])
 
 ;; -------------------------
 ;; Initialize app
