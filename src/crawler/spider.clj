@@ -48,5 +48,5 @@
     (create-workers)
     (>!! url-chan url)
     (println (<!! completion-chan))
-    (println (keys visited-urls))
-    (println "Completed after: " (seconds-since start-time) " seconds")))
+    (println "Completed after: " (seconds-since start-time) " seconds")
+    (keys visited-urls)))

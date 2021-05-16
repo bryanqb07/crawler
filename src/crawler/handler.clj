@@ -3,12 +3,13 @@
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :as ring-json]
-            [ring.util.response :as resp]))
+            [ring.util.response :as resp]
+            [crawler.spider :as spider]))
 
 (defroutes app-routes
   (GET "/" [] (resp/redirect "/index.html"))
-  (GET "/search" {params :params} 
-       (resp/response {:results ["test.com" "test.com/something" "test.com/about" ]}))
+  (GET "/search" {{search-url :search-url} :params} 
+       (resp/response {:results (spider/crawl-url search-url)}))
   (route/resources "/")
   (route/not-found "Not Found"))
 
