@@ -8,7 +8,7 @@
 (defroutes app-routes
   (GET "/" [] (resp/redirect "/index.html"))
   (GET "/search" {params :params} 
-       (resp/response {:results (str "you have tried to query: " params)}))
+       (resp/response {:results ["test.com" "test.com/something" "test.com/about" ]}))
   (route/resources "/")
   (route/not-found "Not Found"))
 
