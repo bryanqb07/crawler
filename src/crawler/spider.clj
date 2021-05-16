@@ -2,13 +2,8 @@
   (:require [clojure.core.async :as a :refer [>! <! >!! <!! go chan buffer go-loop alts! timeout]]
             [crawler.parser :as parser]))
 
-
-(def url-chan (chan 102400))
-(def completion-chan (chan 1))
 (def log-chan (chan 1000))
-;(def site-map (atom #{}))
-(def visited-urls (java.util.concurrent.ConcurrentHashMap.))
-(def max-workers 8)
+;; ;(def site-map (atom #{}))
 
 (defn log [message]
   (go (>! log-chan message)))
@@ -18,10 +13,7 @@
     (println (<! log-chan))
     (recur)))
 
-(defn filter-visited-links [links]
-  (filter #(not (.get visited-urls %)) links))
-
-(defn create-workers []
+(defn create-workers [visited-urls url-chan completion-chan max-workers]
   (dotimes [_ max-workers]
     (go-loop [url (<! url-chan)]
       (when-not (.putIfAbsent visited-urls url true)
@@ -43,9 +35,13 @@
     (/ (- current-time start-time) 1000.0)))
 
 (defn crawl-url [url]
-  (let [start-time (System/currentTimeMillis)]
+  (let [start-time (System/currentTimeMillis)
+        url-chan (chan 102400)
+        completion-chan (chan 1)
+        visited-urls (java.util.concurrent.ConcurrentHashMap.)
+        ]
     (setup-logger)
-    (create-workers)
+    (create-workers visited-urls url-chan completion-chan 8)
     (>!! url-chan url)
     (println (<!! completion-chan))
     (println "Completed after: " (seconds-since start-time) " seconds")

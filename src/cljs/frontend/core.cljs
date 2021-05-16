@@ -14,16 +14,6 @@
 (def request-chan (chan))
 (def results-chan (chan))
 
-(defn respond-to-search [response]
-  (prn response))
-
-;; (defn create-request-handler []
-;;   (let [search-url (go (<! request-chan))
-;;         response (go (<! (http/get "/"
-;;                                    {:with-credentials false
-;;                                     :query-params {"search-url" search-url}})))]
-;;     (respond-to-search response)
-;;     ))
 (defn create-results-handler []
   (go-loop []
     (let [results (<! results-chan)]
@@ -45,6 +35,7 @@
     (fn []
       [:form {:on-submit (fn [e]
                            (.preventDefault e)
+                           (reset! search-url-results []) ; clear the previous results
                            (put! request-chan @search-url))}
        [:input {:type :text 
                 :name :search-url
