@@ -2,12 +2,14 @@
   (:require [clojure.core.async :as a :refer [>! <! >!! <!! go chan buffer go-loop alts!! timeout]]
             [crawler.parser :as http]))
 
+
 (defn worker [url-chan url]
-  (try
-    (let [url-links (http/get-url-links url)]
-      (go (>! url-chan url-links)))
-    (catch Exception e
-      (println "Error retrieving url: " url))))
+  (go
+    (try
+      (let [url-links (parser/get-url-links url)]
+        (>! url-chan url-links))
+      (catch Exception e
+        (println "Error retrieving url: " url)))))
 
 (defn crawl [url-chan]
   (let [visited-urls (atom {})]
