@@ -45,7 +45,7 @@
   (-> url get-domain-name get-abbreviated-domain-name))
 
 (defn filter-domain-links [domain-name url-strings] 
-  (filter #(get-regexp (str "^(?!mailto)(" ".*" domain-name ".*" ")") %) url-strings))
+  (filter #(get-regexp (str "^(?!mailto)(" "^http.*" domain-name ".*" ")") %) url-strings))
 
 (defn filter-external-domains [domain-name url-strings]
   (filter #(= domain-name (url-to-domain %)) url-strings))

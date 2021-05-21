@@ -6,7 +6,7 @@
 (defn worker [url-chan url]
   (go
     (try
-      (let [url-links (parser/get-url-links url)]
+      (let [url-links (http/get-url-links url)]
         (>! url-chan url-links))
       (catch Exception e
         (println "Error retrieving url: " url)))))
