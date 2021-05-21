@@ -1,10 +1,10 @@
 (ns crawler.spider
   (:require [clojure.core.async :as a :refer [>! <! >!! <!! go chan buffer go-loop alts!! timeout]]
-            [crawler.parser :as parser]))
+            [crawler.parser :as http]))
 
 (defn worker [url-chan url]
   (try
-    (let [url-links (parser/get-url-links url)]
+    (let [url-links (http/get-url-links url)]
       (go (>! url-chan url-links)))
     (catch Exception e
       (println "Error retrieving url: " url))))
