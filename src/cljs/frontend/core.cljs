@@ -33,17 +33,19 @@
 (defn search-form []
   (let [search-url (r/atom "")]
     (fn []
-      [:form {:on-submit (fn [e]
-                           (.preventDefault e)
-                           (reset! search-url-results []) ; clear the previous results
-                           (put! request-chan @search-url))}
-       [:input {:type :text 
-                :name :search-url
-                :value @search-url
-                :on-change (fn [e]
-                             (reset! search-url (-> e .-target .-value)))}
+      [:form.search {:on-submit (fn [e]
+                                  (.preventDefault e)
+                                  (reset! search-url-results []) ; clear the previous results
+                                  (put! request-chan @search-url))}
+       [:input.searchTerm {:type :text 
+                           :name :search-url
+                           :value @search-url
+                           :placeholder "https://news.ycombinator.com"
+                           :on-change (fn [e]
+                                        (reset! search-url (-> e .-target .-value)))}
         ]
-       [:button {:type :submit} "Crawl!"]])))
+       [:button.searchButton {:type :submit}
+        [:i.fa.fa-search]]])))
 
 (defn results-list []
   [:ul
@@ -54,8 +56,10 @@
   (defn home-page []
     (create-request-handler)
     (create-results-handler)
-    [:div 
-     [:h2 "Clojure Web Crawler"]
+    [:div.wrap
+     [:h2 "Mini-Crawler"]
+     [:img {:src "spider.gif"}]
+     [:p "Crawl all the pages on your personal website."]
      [search-form]
      [results-list]])
 

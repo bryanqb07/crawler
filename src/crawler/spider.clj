@@ -2,7 +2,6 @@
   (:require [clojure.core.async :as a :refer [>! <! >!! <!! go chan buffer go-loop alts!! timeout]]
             [crawler.parser :as http]))
 
-
 (defn worker [url-chan url]
   (go
     (try
