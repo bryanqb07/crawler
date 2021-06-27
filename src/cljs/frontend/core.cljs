@@ -35,7 +35,7 @@
     (fn []
       [:form.search {:on-submit (fn [e]
                                   (.preventDefault e)
-                                  (reset! search-url-results []) ; clear the previous results
+                                  (reset! search-url-results ["Searching..."]) ; clear the previous results
                                   (put! request-chan @search-url))}
        [:input.searchTerm {:type :text 
                            :name :search-url
