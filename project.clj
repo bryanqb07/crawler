@@ -7,9 +7,12 @@
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
                  [ring/ring-json "0.5.1"]
+                 [ring/ring-jetty-adapter "1.9.3"]
                  [enlive "1.1.6"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler crawler.handler/app}
+  :main crawler.handler
+  :aot [crawler.handler]
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.2"]]}})
