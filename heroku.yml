@@ -1,0 +1,5 @@
+build:
+  docker:
+    crawler: Dockerfile
+run:
+  crawler: env port=$PORT java -jar crawler.jar
