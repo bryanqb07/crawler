@@ -1,5 +1,6 @@
 <h1>Clojure Crawler</h1>
 <p>A single domain crawler for your personal site. Built with Clojure & Clojurescript (Reagent, shadow-cljs)</p>
+Demo http://blooming-sierra-08154.herokuapp.com/index.html
 
 <h3>Backend Config</h3>
 <p>You will need [Leiningen][] 2.0.0 or above installed.</p>
