@@ -5,6 +5,11 @@
 .lds-circle {
   display: inline-block;
   transform: translateZ(1px);
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  margin-top: -32px;
+  margin-right: -32px;
 }
 .lds-circle > div {
   display: inline-block;
@@ -12,7 +17,7 @@
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  background: #fff;
+  background: #00B4CC;
   animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
