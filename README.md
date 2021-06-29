@@ -1,37 +1,17 @@
--# crawler
+<h1>Clojure Crawler</h1>
+<p>A single domain crawler for your personal site. Built with Clojure & Clojurescript (Reagent, shadow-cljs)</p>
 
--FIXME
+<h3>Backend Config</h3>
+<p>You will need [Leiningen][] 2.0.0 or above installed.</p>
+<p>[leiningen]: https://github.com/technomancy/leiningen</p>
+<p>Use <code>lein run</code> to start the server</p>
 
-##Backend Config
--
--## Prerequisites
--
--You will need [Leiningen][] 2.0.0 or above installed.
--
--[leiningen]: https://github.com/technomancy/leiningen
--
--## Running
--
--To start a web server for the application, run:
--
--    lein ring server
--
--## License
--
--Copyright © 2021 FIXME
+<h3>Frontend Config</h3>
+<p><code>npm install</code></p>
+<p><code>npx shadow-cljs watch app</code></p>
+<p>Run <code>npx shadow-cljs release app</code> for release version</p>
 
-##-Frontend Config
-## Development mode
-```
-npm install
-npx shadow-cljs watch app
-```
-start a ClojureScript REPL
-```
-npx shadow-cljs browser-repl
-```
-## Building for production
-
-```
-npx shadow-cljs release app
-```
+<h3>Docker Version</h3>
+<p>Build uberjar in base dir with <code>lein do clean, uberjar</code></p>
+<p><code>docker build . -t crawler</code></p>
+<p><code>docker run -p 3000:3000 crawler</code></p>
