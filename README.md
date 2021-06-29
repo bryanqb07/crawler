@@ -8,7 +8,7 @@
 
 <h3>Frontend Config</h3>
 <p><code>npm install</code></p>
-<p><code>npx shadow-cljs watch app</code></p>
+<p><code>npx shadow-cljs watch app</code> for development</p>
 <p>Run <code>npx shadow-cljs release app</code> for release version</p>
 
 <h3>Docker Version</h3>
