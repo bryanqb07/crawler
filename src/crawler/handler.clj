@@ -22,6 +22,6 @@
 
 ;; by including jetty above we can override the default
 (defn -main []
-  (let [port (or (Integer.(System/getenv "PORT")) 3000)]
+  (let [port (Integer. (or (System/getenv "PORT") 3000))]
     (println (str "App starting on port: " port))
     (run-jetty app {:port port})))
