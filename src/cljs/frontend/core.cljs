@@ -40,7 +40,7 @@
        [:input.searchTerm {:type :text 
                            :name :search-url
                            :value @search-url
-                           :placeholder "https://news.ycombinator.com"
+                           :placeholder "https://w3schools.com"
                            :on-change (fn [e]
                                         (reset! search-url (-> e .-target .-value)))}
         ]
